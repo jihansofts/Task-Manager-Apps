@@ -1,11 +1,13 @@
-import { StatusBar } from "expo-status-bar";
-import { Text, View } from "react-native";
-import Regstration from "./src/Components/Auth/Regstration";
+import Navigation from "./src/Navigation";
+import { NavigationContainer } from "@react-navigation/native";
+import { Provider } from "react-redux";
+import Store from "./src/Redux/Store/Store";
 export default function App() {
   return (
-    <View className="flex-1 justify-center items-center">
-      <StatusBar style="auto" />
-      <Regstration />
-    </View>
+    <NavigationContainer>
+      <Provider store={Store}>
+        <Navigation />
+      </Provider>
+    </NavigationContainer>
   );
 }
