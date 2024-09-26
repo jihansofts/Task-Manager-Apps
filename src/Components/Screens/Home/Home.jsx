@@ -60,7 +60,7 @@ const Home = () => {
         <Text className="text-xl sm:text-2xl md:text-3xl my-4 text-green-600 font-bold">
           Dashboard New Task
         </Text>
-        <View className="flex-row flex-wrap justify-center items-center gap-2">
+        <View className="flex-row flex-wrap justify-center items-center gap-x-8 gap-y-4">
           {sortedStatus?.map((item, index) => (
             <View
               key={index}

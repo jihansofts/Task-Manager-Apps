@@ -60,16 +60,16 @@ const FooterMenu = () => {
 
       {/* Cancelled Menu */}
       <TouchableOpacity
-        onPress={() => navigation.navigate("Cancelled")}
+        onPress={() => navigation.navigate("Canceletd")}
         className="items-center">
         <FontAwesome5Icon
           name="times-circle"
           size={24}
-          color={route.name === "Cancelled" ? "#7B1FA2" : "white"}
+          color={route.name === "Canceletd" ? "#7B1FA2" : "white"}
         />
         <Text
           className={`mt-1 text-sm ${
-            route.name === "Cancelled" ? "text-[#7B1FA2]" : "text-white"
+            route.name === "Canceletd" ? "text-[#7B1FA2]" : "text-white"
           }`}>
           Cancelled
         </Text>

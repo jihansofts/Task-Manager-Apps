@@ -7,6 +7,7 @@ import {
   setProgress,
   setCanceled,
 } from "../Redux/State-Slice/TaskSlice";
+import { setProfile } from "../Redux/State-Slice/ProfileSlice";
 import { setStoredData } from "../Helper/FormHelper";
 import { getAuthHeaders } from "../Utility/AuthUtility";
 import Store from "../Redux/Store/Store";
@@ -124,6 +125,50 @@ export const DeleteTaskRequest = async (id) => {
     }
   } catch (error) {
     console.log("DeleteTaskRequest error:", error);
+    return false;
+  }
+};
+
+export const ProfileGetRequest = async () => {
+  try {
+    const headers = await getAuthHeaders();
+    let URL = `${BaseURL}/UserProfileDetails`;
+    const { data } = await axios.get(URL, headers);
+    if (data.status === "success") {
+      Store.dispatch(setProfile(data["data"]));
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log("ProfileGetRequest error:", error);
+    return false;
+  }
+};
+
+export const ProfileUpdateRequest = async (
+  firstName,
+  lastName,
+  email,
+  mobile,
+  password,
+  photo
+) => {
+  try {
+    const headers = await getAuthHeaders();
+    let URL = `${BaseURL}/UpdateProfiles`;
+    const { data } = await axios.put(
+      URL,
+      { firstName, lastName, email, mobile, password, photo },
+      headers
+    );
+    if (data.status === "success") {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log("ProfileUpdateRequest error:", error);
     return false;
   }
 };
