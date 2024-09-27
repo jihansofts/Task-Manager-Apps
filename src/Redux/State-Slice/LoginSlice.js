@@ -13,7 +13,11 @@ const LoginSlice = createSlice({
     setData: (state, action) => {
       state.data = action.payload;
     },
+    logout: (state, action) => {
+      state.data = [];
+      state.token = "";
+    },
   },
 });
-export const { setToken, setData } = LoginSlice.actions;
+export const { setToken, setData, logout } = LoginSlice.actions;
 export default LoginSlice.reducer;

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setData, setToken } from "../Redux/State-Slice/LoginSlice";
+import { setData, setToken, logout } from "../Redux/State-Slice/LoginSlice";
 import { setTotalCount } from "../Redux/State-Slice/TotalCountSlice";
 import {
   setNewTasks,
@@ -8,7 +8,7 @@ import {
   setCanceled,
 } from "../Redux/State-Slice/TaskSlice";
 import { setProfile } from "../Redux/State-Slice/ProfileSlice";
-import { setStoredData } from "../Helper/FormHelper";
+import { setStoredData, removeStoredData } from "../Helper/FormHelper";
 import { getAuthHeaders } from "../Utility/AuthUtility";
 import Store from "../Redux/Store/Store";
 let BaseURL = "https://task-management-backend-ep6l.onrender.com/api/v1";
@@ -18,9 +18,7 @@ export const LoginRequest = async (email, password) => {
       email,
       password,
     });
-
     if (data.status === "success") {
-      console.log(data, "api");
       await setStoredData("data", data);
       Store.dispatch(setData(data));
       Store.dispatch(setToken(data.token));
@@ -146,23 +144,21 @@ export const ProfileGetRequest = async () => {
   }
 };
 
-export const ProfileUpdateRequest = async (
-  firstName,
-  lastName,
-  email,
-  mobile,
-  password,
-  photo
-) => {
+export const ProfileUpdateRequest = async (updatedFields) => {
   try {
     const headers = await getAuthHeaders();
     let URL = `${BaseURL}/UpdateProfiles`;
-    const { data } = await axios.put(
-      URL,
-      { firstName, lastName, email, mobile, password, photo },
-      headers
-    );
+    const { data } = await axios.put(URL, updatedFields, headers);
     if (data.status === "success") {
+      Store.dispatch(setData(data["data"]));
+      if (data.token) {
+        Store.dispatch(setToken(data.token));
+      }
+      if (updatedFields.password) {
+        await removeStoredData("data");
+        Store.dispatch(logout());
+        return true;
+      }
       return true;
     } else {
       return false;
@@ -172,3 +168,23 @@ export const ProfileUpdateRequest = async (
     return false;
   }
 };
+
+// export const ProfileUpdateRequest = async (updatedFields) => {
+//   try {
+//     const headers = await getAuthHeaders();
+//     let URL = `${BaseURL}/UpdateProfiles`;
+//     console.log(updatedFields, "updatedFields");
+//     const { data } = await axios.put(URL, updatedFields, headers);
+//     if (data.status === "success") {
+//       await setStoredData("data", data);
+//       Store.dispatch(setData(data));
+//       Store.dispatch(setToken(data.token));
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   } catch (error) {
+//     console.log("ProfileUpdateRequest error:", error);
+//     return false;
+//   }
+// };

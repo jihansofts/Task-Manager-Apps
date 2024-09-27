@@ -12,7 +12,6 @@ const Login = ({ navigation }) => {
     try {
       setLoading(true);
       const data = await LoginRequest(email, password);
-      console.log(data, "data");
       setLoading(false);
       if (data === true) {
         navigation.navigate("Home");

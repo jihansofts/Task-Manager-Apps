@@ -19,16 +19,18 @@ import {
 } from "../../../API/APIRequest";
 import { removeStoredData } from "../../../Helper/FormHelper";
 import * as ImagePicker from "expo-image-picker";
-import { setProfileData } from "../../../Redux/State-Slice/ProfileSlice";
+import { setProfile } from "../../../Redux/State-Slice/ProfileSlice";
+import { logout } from "../../../Redux/State-Slice/LoginSlice";
 const Profile = () => {
   const ProfileData = useSelector((state) => state.profile.ProfileData);
   const dispatch = useDispatch();
   const [firstName, setFirstName] = useState(ProfileData[0]?.firstName);
+  console.log(firstName, "name");
   const [lastName, setLastName] = useState(ProfileData[0]?.lastName);
+  const [photo, setPhoto] = useState(ProfileData[0]?.photo);
   const [mobile, setMobile] = useState(ProfileData[0]?.mobile);
   const [password, setPassword] = useState(ProfileData[0]?.password);
   const [loading, setLoading] = useState(false);
-
   const handleImageSelect = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -36,37 +38,62 @@ const Profile = () => {
       quality: 1,
     });
     if (!result.canceled) {
-      dispatch(setProfileData({ photo: result.uri }));
+      setPhoto(result.assets[0].uri);
+      dispatch(setProfile({ photo: result.assets[0].uri }));
     }
   };
+
   const handleSubmit = async () => {
     setLoading(true);
+    const updatedFields = {};
+    if (firstName !== ProfileData[0]?.firstName) {
+      updatedFields.firstName = firstName;
+    }
+    if (lastName !== ProfileData[0]?.lastName) {
+      updatedFields.lastName = lastName;
+    }
+    if (mobile !== ProfileData[0]?.mobile) {
+      updatedFields.mobile = mobile;
+    }
+    if (password !== ProfileData[0]?.password) {
+      updatedFields.password = password;
+    }
+    if (photo !== ProfileData[0]?.photo) {
+      updatedFields.photo = photo;
+    }
     try {
-      const response = await ProfileUpdateRequest({
-        firstName,
-        lastName,
-        email,
-        mobile,
-        password,
-        photo: ProfileData[0]?.photo,
-      });
-      if (response === true) {
+      if (Object.keys(updatedFields).length > 0) {
+        const response = await ProfileUpdateRequest(updatedFields);
+        console.log(response, "res");
+        if (response === true) {
+          setLoading(false);
+          await ProfileGetRequest();
+          Alert.alert("Success", "Profile updated successfully");
+        }
+      } else {
         setLoading(false);
-        await ProfileGetRequest();
-        Alert.alert("Success", "Profile updated successfully");
+        Alert.alert("No changes", "No fields were updated");
       }
     } catch (error) {
       setLoading(false);
-      Alert.alert("Error", "Profile update failed");
+      Alert.alert(error, "Profile update failed");
     }
   };
   const handleLogout = () => {
-    dispatch(removeStoredData());
+    dispatch(logout());
+    removeStoredData("data");
     Alert.alert("Logged Out", "You have been logged out successfully.");
   };
 
   useEffect(() => {
     (async () => {
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert(
+          "Sorry, we need camera roll permissions to make this work!"
+        );
+      }
       await ProfileGetRequest();
     })();
   }, []);
@@ -80,9 +107,9 @@ const Profile = () => {
             Update Profile
           </Text>
           <View className="my-4 items-center">
-            {ProfileData[0]?.photo ? (
+            {photo ? (
               <Image
-                source={{ uri: ProfileData[0]?.photo }}
+                source={{ uri: photo }}
                 style={{ width: 100, height: 100, borderRadius: 50 }}
               />
             ) : (
@@ -127,7 +154,7 @@ const Profile = () => {
             <TextInput
               className="border-2 bg-white border-green-600 rounded-lg p-2 w-[100%] h-[50px]"
               placeholder="Mobile"
-              value={ProfileData[0]?.mobile}
+              value={mobile}
               onChangeText={(text) => setMobile(text)}
             />
           </View>
@@ -136,7 +163,7 @@ const Profile = () => {
             <TextInput
               className="border-2 bg-white border-green-600 rounded-lg p-2 w-[100%] h-[50px]"
               placeholder="New Password"
-              value={ProfileData[0]?.password}
+              value={password}
               secureTextEntry={true}
               onChangeText={(text) => setPassword(text)}
             />
@@ -148,12 +175,13 @@ const Profile = () => {
               buttonName="Update"
             />
 
-            <ButtonCustom
-              // handleSumit={handleLogout}
-              loading={false}
-              buttonName="Logout"
-              buttonStyle="mt-4 bg-red-500"
-            />
+            <TouchableOpacity>
+              <Text
+                className="text-red-500 mt-2"
+                onPress={() => handleLogout()}>
+                Logout
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
