@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import ButtonCustom from "../../Forms/ButtonCustom";
 import HeaderMenu from "../../Menus/HeaderMenu";
 import FooterMenu from "../../Menus/FooterMenu";
 import { useSelector, useDispatch } from "react-redux";
@@ -19,13 +18,13 @@ import {
 } from "../../../API/APIRequest";
 import { removeStoredData } from "../../../Helper/FormHelper";
 import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 import { setProfile } from "../../../Redux/State-Slice/ProfileSlice";
 import { logout } from "../../../Redux/State-Slice/LoginSlice";
 const Profile = () => {
   const ProfileData = useSelector((state) => state.profile.ProfileData);
   const dispatch = useDispatch();
   const [firstName, setFirstName] = useState(ProfileData[0]?.firstName);
-  console.log(firstName, "name");
   const [lastName, setLastName] = useState(ProfileData[0]?.lastName);
   const [photo, setPhoto] = useState(ProfileData[0]?.photo);
   const [mobile, setMobile] = useState(ProfileData[0]?.mobile);
@@ -38,8 +37,13 @@ const Profile = () => {
       quality: 1,
     });
     if (!result.canceled) {
-      setPhoto(result.assets[0].uri);
-      dispatch(setProfile({ photo: result.assets[0].uri }));
+      const imageUri = result.assets[0].uri;
+      const base64Image = await FileSystem.readAsStringAsync(imageUri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      const base64ImageData = `data:image/jpeg;base64,${base64Image}`;
+      setPhoto(base64ImageData);
+      dispatch(setProfile({ photo: base64ImageData }));
     }
   };
 
@@ -168,16 +172,18 @@ const Profile = () => {
               onChangeText={(text) => setPassword(text)}
             />
           </View>
-          <View className="my-2 flex-row gap-2 gap-x-4 justify-center">
-            <ButtonCustom
-              handleSumit={handleSubmit}
-              loading={loading}
-              buttonName="Update"
-            />
-
-            <TouchableOpacity>
+          <View className="my-2 flex-row  gap-x-4 gap-y-2 justify-center items-center">
+            <TouchableOpacity className="bg-green-600 rounded-lg p-2 w-[45%] mt-5 h-[45px] flex justify-center items-center">
               <Text
-                className="text-red-500 mt-2"
+                className="text-white text-[18px] font-bold "
+                onPress={() => (loading ? null : handleSubmit())}>
+                Update
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity className="bg-green-600 rounded-lg p-2 w-[45%] mt-5 h-[45px] flex justify-center items-center">
+              <Text
+                className="text-red-600 text-[18px] font-bold "
                 onPress={() => handleLogout()}>
                 Logout
               </Text>

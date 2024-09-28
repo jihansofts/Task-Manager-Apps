@@ -19,7 +19,7 @@ export const LoginRequest = async (email, password) => {
       password,
     });
     if (data.status === "success") {
-      await setStoredData("data", data);
+      setStoredData("data", data);
       Store.dispatch(setData(data));
       Store.dispatch(setToken(data.token));
       return true;
@@ -134,6 +134,7 @@ export const ProfileGetRequest = async () => {
     const { data } = await axios.get(URL, headers);
     if (data.status === "success") {
       Store.dispatch(setProfile(data["data"]));
+      Store.dispatch(setData(data["data"]));
       return true;
     } else {
       return false;
@@ -150,13 +151,11 @@ export const ProfileUpdateRequest = async (updatedFields) => {
     let URL = `${BaseURL}/UpdateProfiles`;
     const { data } = await axios.put(URL, updatedFields, headers);
     if (data.status === "success") {
-      Store.dispatch(setData(data["data"]));
-      if (data.token) {
-        Store.dispatch(setToken(data.token));
-      }
       if (updatedFields.password) {
-        await removeStoredData("data");
+        await removeStoredData("token");
         Store.dispatch(logout());
+        Store.dispatch(setData());
+        Store.dispatch(setToken(""));
         return true;
       }
       return true;

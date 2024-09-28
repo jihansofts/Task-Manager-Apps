@@ -20,7 +20,6 @@ const ScreenMenu = () => {
       const storedData = await getStoredData("data");
       if (storedData) {
         Store.dispatch(setToken(storedData.token));
-        return storedData.token;
       }
     };
     fetchLocalStorageData();

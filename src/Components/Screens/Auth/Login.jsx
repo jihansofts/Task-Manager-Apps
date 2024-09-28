@@ -28,7 +28,7 @@ const Login = ({ navigation }) => {
   };
   return (
     <View className="flex-1 justify-center  bg-green-100 w-[100%] px-8">
-      <Text className="text-3xl text-green-600 font-bold">Regstration</Text>
+      <Text className="text-3xl text-green-600 font-bold">Login</Text>
       <InputBox
         value={email}
         setValue={setEmail}
