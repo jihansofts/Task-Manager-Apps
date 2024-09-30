@@ -21,7 +21,7 @@ export default function Progress() {
       <HeaderMenu />
       <View className="flex-1 justify-between px-4 sm:px-6 md:px-8 lg:px-12">
         <Text className="text-xl sm:text-2xl md:text-3xl my-4 text-green-600 font-bold">
-          Completed Task
+          Progress Task
         </Text>
         <View className="flex-row flex-wrap justify-center items-center gap-6">
           {sortedStatus?.map((item, index) => (
