@@ -37,7 +37,7 @@ const CanceletdList = ({ data, updateStatus, deleteTask }) => {
                     {moment(item.date).format("DD-MM-YYYY")}
                   </Text>
                   <View className="flex-row justify-between items-center mt-2">
-                    <View className="bg-blue-500 p-1 md:w-[40px] md:h-[20px] sm:w-[30px] sm:h-[16px] rounded flex justify-center items-center">
+                    <View className="bg-[#FF0033] p-1 md:w-[40px] md:h-[20px] sm:w-[30px] sm:h-[16px] rounded flex justify-center items-center">
                       <Text className="text-white font-bold text-[8px]">
                         {item.status}
                       </Text>

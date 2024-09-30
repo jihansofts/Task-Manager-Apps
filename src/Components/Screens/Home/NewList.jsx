@@ -57,7 +57,7 @@ const NewList = ({ data, updateStatus, deleteTask }) => {
                     {moment(item.date).format("DD-MM-YYYY")}
                   </Text>
                   <View className="flex-row justify-between items-center mt-2">
-                    <View className="bg-blue-500 w-[30px] h-[20px] rounded flex justify-center items-center">
+                    <View className="bg-[#CB0C9F] w-[30px] h-[20px] rounded flex justify-center items-center">
                       <Text className="text-white font-bold text-[8px]">
                         {item.status}
                       </Text>

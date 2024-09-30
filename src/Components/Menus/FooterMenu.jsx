@@ -23,8 +23,6 @@ const FooterMenu = () => {
           Home
         </Text>
       </TouchableOpacity>
-
-      {/* Completed Menu */}
       <TouchableOpacity
         onPress={() => navigation.navigate("Completd")}
         className="items-center">
@@ -40,8 +38,6 @@ const FooterMenu = () => {
           Completed
         </Text>
       </TouchableOpacity>
-
-      {/* Progress Menu */}
       <TouchableOpacity
         onPress={() => navigation.navigate("Progress")}
         className="items-center">
@@ -57,8 +53,6 @@ const FooterMenu = () => {
           Progress
         </Text>
       </TouchableOpacity>
-
-      {/* Cancelled Menu */}
       <TouchableOpacity
         onPress={() => navigation.navigate("Canceletd")}
         className="items-center">
@@ -74,8 +68,6 @@ const FooterMenu = () => {
           Cancelled
         </Text>
       </TouchableOpacity>
-
-      {/* Profile Menu */}
       <TouchableOpacity
         onPress={() => navigation.navigate("Profile")}
         className="items-center">

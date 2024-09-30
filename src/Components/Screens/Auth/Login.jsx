@@ -51,14 +51,21 @@ const Login = ({ navigation }) => {
         loading={loading}
         buttonName="Login"
       />
-      <Text className="text-green-600">
-        Don't have an account?
-        <Text
-          onPress={() => navigation.navigate("Regstration")}
-          className="text-red-600">
-          Regstration{" "}
+      <View className="mt-2">
+        <Text className="text-green-600">
+          Don't have an account?
+          <Text
+            onPress={() => navigation.navigate("Regstration")}
+            className="text-red-600">
+            Regstration{" "}
+          </Text>
         </Text>
-      </Text>
+        <Text
+          onPress={() => navigation.navigate("VerifyEmail")}
+          className="text-green-700">
+          Forget Password?
+        </Text>
+      </View>
     </View>
   );
 };

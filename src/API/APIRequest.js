@@ -8,7 +8,12 @@ import {
   setCanceled,
 } from "../Redux/State-Slice/TaskSlice";
 import { setProfile } from "../Redux/State-Slice/ProfileSlice";
-import { setStoredData, removeStoredData } from "../Helper/FormHelper";
+import {
+  setStoredData,
+  removeStoredData,
+  setEmail,
+  setOTP,
+} from "../Helper/FormHelper";
 import { getAuthHeaders } from "../Utility/AuthUtility";
 import Store from "../Redux/Store/Store";
 let BaseURL = "https://task-management-backend-ep6l.onrender.com/api/v1";
@@ -19,7 +24,7 @@ export const LoginRequest = async (email, password) => {
       password,
     });
     if (data.status === "success") {
-      setStoredData("data", data);
+      await setStoredData("data", data);
       Store.dispatch(setData(data));
       Store.dispatch(setToken(data.token));
       return true;
@@ -152,7 +157,7 @@ export const ProfileUpdateRequest = async (updatedFields) => {
     const { data } = await axios.put(URL, updatedFields, headers);
     if (data.status === "success") {
       if (updatedFields.password) {
-        await removeStoredData("token");
+        await removeStoredData("data");
         Store.dispatch(logout());
         Store.dispatch(setData());
         Store.dispatch(setToken(""));
@@ -168,22 +173,49 @@ export const ProfileUpdateRequest = async (updatedFields) => {
   }
 };
 
-// export const ProfileUpdateRequest = async (updatedFields) => {
-//   try {
-//     const headers = await getAuthHeaders();
-//     let URL = `${BaseURL}/UpdateProfiles`;
-//     console.log(updatedFields, "updatedFields");
-//     const { data } = await axios.put(URL, updatedFields, headers);
-//     if (data.status === "success") {
-//       await setStoredData("data", data);
-//       Store.dispatch(setData(data));
-//       Store.dispatch(setToken(data.token));
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   } catch (error) {
-//     console.log("ProfileUpdateRequest error:", error);
-//     return false;
-//   }
-// };
+export const EmailValidationRequest = async (email) => {
+  try {
+    let URL = `${BaseURL}/RecoveryVerifyEmail/${email}`;
+    const { data } = await axios.get(URL);
+    if (data.status === "success") {
+      await setEmail(email, "email");
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log("EmailValidationRequest error:", error);
+    return false;
+  }
+};
+
+export const PasswordRecoveryRequest = async (email, OTP) => {
+  try {
+    let URL = `${BaseURL}/RecoveryVerifyOTP/${email}/${OTP}`;
+    const { data } = await axios.get(URL);
+    if (data.status === "success") {
+      setOTP(OTP, "OTP");
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log("PasswordRecoveryRequest error:", error);
+    return false;
+  }
+};
+
+export const PasswordResetRequest = async (email, OTP, password) => {
+  try {
+    let URL = `${BaseURL}/ResetPassword`;
+    const { data } = await axios.post(URL, { email, OTP, password });
+    if (data.status === "success") {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log("PasswordResetRequest error:", error);
+    return false;
+  }
+};

@@ -68,11 +68,10 @@ const Profile = () => {
     try {
       if (Object.keys(updatedFields).length > 0) {
         const response = await ProfileUpdateRequest(updatedFields);
-        console.log(response, "res");
         if (response === true) {
           setLoading(false);
           await ProfileGetRequest();
-          Alert.alert("Success", "Profile updated successfully");
+          Alert.alert("Profile updated successfully");
         }
       } else {
         setLoading(false);

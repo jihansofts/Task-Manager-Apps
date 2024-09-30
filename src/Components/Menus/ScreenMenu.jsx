@@ -1,7 +1,9 @@
-import { View, Text } from "react-native";
 import React, { useEffect } from "react";
 import Login from "../Screens/Auth/Login";
 import Regstration from "../Screens/Auth/Regstration";
+import VerifyEmail from "../Screens/Auth/AccountRecovery/VerifyEmail";
+import OTPVerify from "../Screens/Auth/AccountRecovery/OTPVerify";
+import ResetPassword from "../Screens/Auth/AccountRecovery/ResetPassword";
 import { getStoredData } from "../../Helper/FormHelper";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../Screens/Home/Home";
@@ -65,6 +67,21 @@ const ScreenMenu = () => {
           <Stack.Screen
             name="Regstration"
             component={Regstration}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="VerifyEmail"
+            component={VerifyEmail}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="OTPVerify"
+            component={OTPVerify}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ResetPassword"
+            component={ResetPassword}
             options={{ headerShown: false }}
           />
         </>

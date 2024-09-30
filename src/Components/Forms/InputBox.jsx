@@ -9,6 +9,7 @@ const InputBox = ({
   onChangeText,
   setValue,
   value,
+  editable = true,
 }) => {
   return (
     <View className="my-2">
@@ -22,6 +23,7 @@ const InputBox = ({
         autoCorrect={false}
         secureTextEntry={secureTextEntry}
         value={value}
+        editable={editable}
       />
     </View>
   );
