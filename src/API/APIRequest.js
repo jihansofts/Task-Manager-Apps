@@ -156,13 +156,6 @@ export const ProfileUpdateRequest = async (updatedFields) => {
     let URL = `${BaseURL}/UpdateProfiles`;
     const { data } = await axios.put(URL, updatedFields, headers);
     if (data.status === "success") {
-      if (updatedFields.password) {
-        await removeStoredData("data");
-        Store.dispatch(logout());
-        Store.dispatch(setData());
-        Store.dispatch(setToken(""));
-        return true;
-      }
       return true;
     } else {
       return false;

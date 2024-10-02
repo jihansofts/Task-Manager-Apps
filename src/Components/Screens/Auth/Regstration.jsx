@@ -11,7 +11,7 @@ import InputBox from "../../Forms/InputBox";
 import ButtonCustom from "../../Forms/ButtonCustom";
 import axios from "axios";
 const { width } = Dimensions.get("window");
-
+import { isValidEmail } from "../../../Helper/FormHelper";
 const Registration = ({ navigation }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -23,6 +23,16 @@ const Registration = ({ navigation }) => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
+      if (!firstName || !lastName || !email || !mobile || !password) {
+        Alert.alert("Error", "Please fill all the fields");
+        setLoading(false);
+        return;
+      }
+      if (!isValidEmail(email)) {
+        Alert.alert("Error", "Please enter a valid email address");
+        setLoading(false);
+        return;
+      }
       const data = await axios.post(
         "https://task-management-backend-ep6l.onrender.com/api/v1/Registrations",
         {
@@ -51,8 +61,7 @@ const Registration = ({ navigation }) => {
       }
     } catch (error) {
       setLoading(false);
-      console.log(error);
-      Alert.alert("Registration failed");
+      Alert.alert("Account already exists");
     }
   };
 

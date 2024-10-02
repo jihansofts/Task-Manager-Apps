@@ -22,7 +22,6 @@ const Login = ({ navigation }) => {
       }
     } catch (error) {
       setLoading(false);
-      console.log(error);
       Alert.alert("Error", "Something went wrong");
     }
   };

@@ -20,7 +20,11 @@ import { removeStoredData } from "../../../Helper/FormHelper";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { setProfile } from "../../../Redux/State-Slice/ProfileSlice";
-import { logout } from "../../../Redux/State-Slice/LoginSlice";
+import {
+  logout,
+  setData,
+  setToken,
+} from "../../../Redux/State-Slice/LoginSlice";
 const Profile = () => {
   const ProfileData = useSelector((state) => state.profile.ProfileData);
   const dispatch = useDispatch();
@@ -68,6 +72,7 @@ const Profile = () => {
     try {
       if (Object.keys(updatedFields).length > 0) {
         const response = await ProfileUpdateRequest(updatedFields);
+        console.log(response, "response");
         if (response === true) {
           setLoading(false);
           await ProfileGetRequest();

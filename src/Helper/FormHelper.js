@@ -1,6 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Store from "../Redux/Store/Store";
 import { setProfile } from "../Redux/State-Slice/ProfileSlice";
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export const isValidEmail = (value) => {
+  return emailRegex.test(value);
+};
+
 export const getStoredData = async (key) => {
   try {
     const jsonValue = await AsyncStorage.getItem(key);
