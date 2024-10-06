@@ -147,7 +147,6 @@ export const ProfileGetRequest = async () => {
 
 export const ProfileUpdateRequest = async (updatedFields) => {
   try {
-    console.log(updatedFields, "data");
     const headers = await getAuthHeaders();
     let URL = `${BaseURL}/UpdateProfiles`;
     const { data } = await axios.put(URL, updatedFields, headers);
