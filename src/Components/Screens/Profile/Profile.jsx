@@ -20,12 +20,8 @@ import { removeStoredData } from "../../../Helper/FormHelper";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { setProfile } from "../../../Redux/State-Slice/ProfileSlice";
-import {
-  logout,
-  setData,
-  setToken,
-} from "../../../Redux/State-Slice/LoginSlice";
-const Profile = () => {
+import { logout } from "../../../Redux/State-Slice/LoginSlice";
+const Profile = ({ navigation }) => {
   const ProfileData = useSelector((state) => state.profile.ProfileData);
   const dispatch = useDispatch();
   const [firstName, setFirstName] = useState(ProfileData[0]?.firstName);
@@ -170,7 +166,7 @@ const Profile = () => {
             <Text className="text-[18px] text-green-500 my-2">Password</Text>
             <TextInput
               className="border-2 bg-white border-green-600 rounded-lg p-2 w-[100%] h-[50px]"
-              placeholder="New Password"
+              placeholder="Password"
               value={password}
               secureTextEntry={true}
               onChangeText={(text) => setPassword(text)}

@@ -8,12 +8,7 @@ import {
   setCanceled,
 } from "../Redux/State-Slice/TaskSlice";
 import { setProfile } from "../Redux/State-Slice/ProfileSlice";
-import {
-  setStoredData,
-  removeStoredData,
-  setEmail,
-  setOTP,
-} from "../Helper/FormHelper";
+import { setStoredData, setEmail, setOTP } from "../Helper/FormHelper";
 import { getAuthHeaders } from "../Utility/AuthUtility";
 import Store from "../Redux/Store/Store";
 let BaseURL = "https://task-management-backend-ep6l.onrender.com/api/v1";
@@ -152,6 +147,7 @@ export const ProfileGetRequest = async () => {
 
 export const ProfileUpdateRequest = async (updatedFields) => {
   try {
+    console.log(updatedFields, "data");
     const headers = await getAuthHeaders();
     let URL = `${BaseURL}/UpdateProfiles`;
     const { data } = await axios.put(URL, updatedFields, headers);
