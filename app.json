@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Task-Manager-App",
-    "slug": "Task-Manager-App",
+    "slug": "task-manager-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,18 +11,18 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
       "adaptiveIcon": {
+        "permissions": ["CAMERA", "LOCATION", "INTERNET"],
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#269846",
+        "proguard": false
       },
       "package": "com.anonymous.TaskManagerApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "owner": "jihansoft"
   }
 }

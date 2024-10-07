@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setData, setToken, logout } from "../Redux/State-Slice/LoginSlice";
+import { setData, setToken } from "../Redux/State-Slice/LoginSlice";
 import { setTotalCount } from "../Redux/State-Slice/TotalCountSlice";
 import {
   setNewTasks,
