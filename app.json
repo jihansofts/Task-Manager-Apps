@@ -13,16 +13,24 @@
     },
     "android": {
       "adaptiveIcon": {
-        "permissions": ["CAMERA", "LOCATION", "INTERNET"],
+        "permissions": [
+          "CAMERA",
+          "LOCATION",
+          "INTERNET"
+        ],
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#269846",
         "proguard": false
       },
-      "package": "com.anonymous.TaskManagerApp"
+      "package": "com.jihansoft.taskmanagerapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "owner": "jihansoft"
+    "extra": {
+      "eas": {
+        "projectId": "f93ec9f4-03fa-45b0-95ce-f1de040a62bf"
+      }
+    }
   }
 }

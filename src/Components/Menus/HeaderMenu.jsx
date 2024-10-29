@@ -14,7 +14,7 @@ const HeaderMenu = () => {
 
   return (
     <View className="h-[80px] flex-row items-center px-5 justify-between bg-green-600">
-      <StatusBar barStyle="auto" />
+      <StatusBar barStyle="gray" />
       {data?.[0]?.photo ? (
         <View className="flex justify-center items-center h-[60px] w-[60px] rounded-full border-2 border-green-100">
           <Image
